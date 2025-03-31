@@ -11,12 +11,16 @@
   ],
   "routes": [
     {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "/index.html"
     }
   ],
   "env": {
     "NODE_ENV": "production",
-    "VUE_APP_API_URL": "https://basic-login-page-using-vue-and-mongodb-atlas-o6j1.vercel.app/"
+    "VITE_API_URL": "https://basic-login-page-using-vue-and-mongodb-atlas-o6j1.vercel.app"
   }
 }
