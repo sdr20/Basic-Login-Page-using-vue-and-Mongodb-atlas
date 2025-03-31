@@ -1,17 +1,19 @@
 const mongoose = require('mongoose');
-const cors = require('cors');
 
-const corsOptions = {
-  origin: 'https://basic-login-page-using-vue-and-mongodb-atlas.vercel.app',
-  optionsSuccessStatus: 200
+// Pre-connect to MongoDB outside the handler
+const connectToMongo = async () => {
+  if (mongoose.connection.readyState === 0) {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000 // Timeout after 5s to avoid 504
+    });
+    console.log('MongoDB connected');
+  }
 };
 
-// Pre-connect to avoid cold start delays
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log('MongoDB connected'))
-  .catch(err => console.error('MongoDB connection error:', err));
+// Connect immediately on module load
+connectToMongo().catch(err => console.error('MongoDB initial connection error:', err));
 
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
@@ -19,10 +21,10 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   console.log('Handler invoked:', req.method, req.url);
 
-  // Apply CORS manually
+  // Set CORS headers immediately
   res.setHeader('Access-Control-Allow-Origin', 'https://basic-login-page-using-vue-and-mongodb-atlas.vercel.app');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -40,18 +42,24 @@ module.exports = (req, res) => {
   console.log('Processing POST request');
   const { email, password } = req.body;
 
-  User.findOne({ email })
-    .then(user => {
-      if (!user) {
-        return res.status(400).json({ message: 'User not found' });
-      }
-      if (user.password !== password) { // Use bcrypt in production
-        return res.status(400).json({ message: 'Invalid credentials' });
-      }
-      res.status(200).json({ message: 'Login successful', userId: user._id });
-    })
-    .catch(err => {
-      console.error('Error:', err);
-      res.status(500).json({ message: 'Server error', error: err.message });
-    });
+  try {
+    // Ensure connection is ready
+    if (mongoose.connection.readyState !== 1) {
+      await connectToMongo();
+    }
+
+    const user = await User.findOne({ email });
+    console.log('User query result:', user);
+
+    if (!user) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+    if (user.password !== password) { // Use bcrypt in production
+      return res.status(400).json({ message: 'Invalid credentials' });
+    }
+    res.status(200).json({ message: 'Login successful', userId: user._id });
+  } catch (err) {
+    console.error('Error:', err);
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
 };
