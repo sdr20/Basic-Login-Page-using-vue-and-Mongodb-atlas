@@ -6,10 +6,23 @@ require('dotenv').config();
 
 const app = express();
 
+// Dynamically handle multiple origins
+const allowedOrigins = [
+  'https://basic-login-page-using-vue-and-mongodb-atlas.vercel.app',
+  'http://localhost:8080' // Add other origins as needed
+];
+
 const corsOptions = {
-  origin: 'https://basic-login-page-using-vue-and-mongodb-atlas.vercel.app', // No trailing slash
+  origin: function (origin, callback) {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   optionsSuccessStatus: 200
 };
+
 app.use(cors(corsOptions));
 app.use(express.json());
 
