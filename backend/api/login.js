@@ -33,6 +33,7 @@ module.exports = async (req, res) => {
   // Set CORS headers immediately
   const allowedOrigins = [
     'https://basic-login-page-using-vue-and-mongodb-atlas.vercel.app',
+    'https://basic-login-page-using-vue-and-mongodb-atlas-o6j1.vercel.app',
     'http://localhost:3000'  // Add your local development URL
   ];
   const origin = req.headers.origin;
