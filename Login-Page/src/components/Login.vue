@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <h1 class="instagram-logo">Instagram</h1>
+    <h1 class="instagram-logo">STFU</h1>
     <form @submit.prevent="handleLogin" class="login-form">
       <div class="form-group">
         <input v-model="email" type="email" placeholder="Email" required />
