@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// MongoDB connection function
 const connectToMongo = async () => {
   if (mongoose.connection.readyState === 0) {
     try {
@@ -30,15 +31,24 @@ module.exports = async (req, res) => {
   console.log('Handler invoked:', req.method, req.url);
 
   // Set CORS headers immediately
-  res.setHeader('Access-Control-Allow-Origin', 'https://basic-login-page-using-vue-and-mongodb-atlas.vercel.app');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  const allowedOrigins = [
+    'https://basic-login-page-using-vue-and-mongodb-atlas.vercel.app',
+    'http://localhost:3000'  // Add your local development URL
+  ];
+  const origin = req.headers.origin;
 
-  console.log('CORS headers set');
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  }
+
+  console.log('CORS headers set for origin:', origin);
 
   if (req.method === 'OPTIONS') {
     console.log('Handling OPTIONS preflight');
-    return res.status(200).end();
+    return res.status(204).end();
   }
 
   if (req.method !== 'POST') {
@@ -61,7 +71,7 @@ module.exports = async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: 'User not found' });
     }
-    if (user.password !== password) {
+    if (user.password !== password) { // Replace with bcrypt in production
       return res.status(400).json({ message: 'Invalid credentials' });
     }
     res.status(200).json({ message: 'Login successful', userId: user._id });
