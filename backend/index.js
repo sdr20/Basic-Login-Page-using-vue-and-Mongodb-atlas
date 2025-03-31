@@ -7,7 +7,7 @@ const app = express();
 
 // CORS configuration - whitelist your Vercel frontend domain
 const corsOptions = {
-  origin: 'https://your-vercel-frontend-domain.vercel.app', // Replace with your actual Vercel domain
+  origin: 'https://basic-login-page-using-vue-and-mongodb-atlas.vercel.app/', // Replace with your actual Vercel domain
   optionsSuccessStatus: 200
 };
 app.use(cors(corsOptions));

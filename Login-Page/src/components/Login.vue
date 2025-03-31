@@ -46,9 +46,9 @@
         this.loading = true;
         this.error = '';
         try {
-          const response = await axios.post('https://your-backend-domain/api/login', {
-            email: this.email,
-            password: this.password
+          const response = await axios.post(`${process.env.VUE_APP_API_URL}/api/login`, {
+              email: this.email,
+              password: this.password
           });
           // Handle successful login (e.g., store token, redirect)
           console.log('Login successful:', response.data);
