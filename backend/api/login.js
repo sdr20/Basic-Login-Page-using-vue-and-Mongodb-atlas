@@ -43,9 +43,10 @@ module.exports = async (req, res) => {
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
+    console.log(`CORS headers set for origin: ${origin}`);
+  } else {
+    console.log(`Origin not allowed: ${origin}`);
   }
-
-  console.log('CORS headers set for origin:', origin);
 
   if (req.method === 'OPTIONS') {
     console.log('Handling OPTIONS preflight');

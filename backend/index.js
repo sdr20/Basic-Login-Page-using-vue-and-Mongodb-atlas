@@ -10,7 +10,8 @@ const app = express();
 const allowedOrigins = [
   'https://basic-login-page-using-vue-and-mongodb-atlas.vercel.app',
   'https://basic-login-page-using-vue-and-mongodb-atlas-o6j1.vercel.app',
-  'http://localhost:8080' // Add other origins as needed
+  'http://localhost:8080', // Add other origins as needed
+  'http://localhost:3000'
 ];
 
 const corsOptions = {
