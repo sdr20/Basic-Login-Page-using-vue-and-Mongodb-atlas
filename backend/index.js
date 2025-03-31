@@ -9,6 +9,7 @@ const app = express();
 // Dynamically handle multiple origins
 const allowedOrigins = [
   'https://basic-login-page-using-vue-and-mongodb-atlas.vercel.app',
+  'https://basic-login-page-using-vue-and-mongodb-atlas-o6j1.vercel.app',
   'http://localhost:8080' // Add other origins as needed
 ];
 
