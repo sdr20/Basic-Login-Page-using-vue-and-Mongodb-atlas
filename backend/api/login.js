@@ -50,7 +50,6 @@ module.exports = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    console.log('Attempting MongoDB operation');
     if (mongoose.connection.readyState !== 1) {
       console.log('Reconnecting to MongoDB...');
       await connectToMongo();
