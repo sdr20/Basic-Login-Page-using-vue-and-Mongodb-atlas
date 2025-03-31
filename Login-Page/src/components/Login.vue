@@ -33,24 +33,23 @@ export default {
   },
   methods: {
     async handleLogin() {
-      this.loading = true;
-      this.error = '';
-      try {
-        const url = import.meta.env.VITE_API_URL; // No fallback here
-        console.log('Using API URL:', url); // Debug
-        if (!url) throw new Error('API URL is not defined');
-        const response = await axios.post(`${url}/api/login`, {
-          email: this.email,
-          password: this.password
-        });
-        console.log('Login successful:', response.data);
-      } catch (err) {
-        console.error('Login error:', err);
-        this.error = err.response?.data?.message || err.message || 'Login failed';
-      } finally {
-        this.loading = false;
-      }
-    }
+  this.loading = true;
+  this.error = '';
+  try {
+    const url = 'https://basic-login-page-using-vue-and-mongodb-atlas-o6j1.vercel.app'; // Hardcode for now
+    console.log('Using API URL:', url);
+    const response = await axios.post(`${url}/api/login`, {
+      email: this.email,
+      password: this.password
+    });
+    console.log('Login successful:', response.data);
+  } catch (err) {
+    console.error('Login error:', err);
+    this.error = err.response?.data?.message || err.message || 'Login failed';
+  } finally {
+    this.loading = false;
+  }
+  }
   }
 };
 </script>
