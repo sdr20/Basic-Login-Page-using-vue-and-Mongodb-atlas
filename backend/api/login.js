@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const corsOptions = {
-  origin: 'https://basic-login-page-using-vue-and-mongodb-atlas.vercel.app', // Exact frontend URL
+  origin: 'https://basic-login-page-using-vue-and-mongodb-atlas.vercel.app/', // Exact frontend URL
   optionsSuccessStatus: 200
 };
 
