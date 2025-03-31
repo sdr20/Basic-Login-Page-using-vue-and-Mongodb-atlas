@@ -2,18 +2,16 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const corsOptions = {
-  origin: 'https://basic-login-page-using-vue-and-mongodb-atlas.vercel.app/', // Exact frontend URL
+  origin: 'https://basic-login-page-using-vue-and-mongodb-atlas.vercel.app', // No trailing slash
   optionsSuccessStatus: 200
 };
 
 module.exports = async (req, res) => {
-  // Apply CORS
   cors(corsOptions)(req, res, async () => {
     if (req.method !== 'POST') {
       return res.status(405).json({ message: 'Method not allowed' });
     }
 
-    // Connect to MongoDB Atlas
     if (mongoose.connection.readyState === 0) {
       await mongoose.connect(process.env.MONGO_URI, {
         useNewUrlParser: true,
