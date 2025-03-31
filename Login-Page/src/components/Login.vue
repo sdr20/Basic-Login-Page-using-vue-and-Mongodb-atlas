@@ -36,8 +36,9 @@ export default {
       this.loading = true;
       this.error = '';
       try {
-        const url = import.meta.env.VITE_API_URL || 'http://localhost:3000'; // Fallback for local dev
+        const url = import.meta.env.VITE_API_URL; // No fallback here
         console.log('Using API URL:', url); // Debug
+        if (!url) throw new Error('API URL is not defined');
         const response = await axios.post(`${url}/api/login`, {
           email: this.email,
           password: this.password
@@ -45,7 +46,7 @@ export default {
         console.log('Login successful:', response.data);
       } catch (err) {
         console.error('Login error:', err);
-        this.error = err.response?.data?.message || 'Login failed';
+        this.error = err.response?.data?.message || err.message || 'Login failed';
       } finally {
         this.loading = false;
       }

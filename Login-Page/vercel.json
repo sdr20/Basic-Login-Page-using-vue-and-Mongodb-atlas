@@ -21,6 +21,6 @@
   ],
   "env": {
     "NODE_ENV": "production",
-    "VITE_API_URL": "https://basic-login-page-using-vue-and-mongodb-atlas-o6j1.vercel.app"
+    "VITE_API_URL": "https://basic-login-page-using-vue-and-mongodb-atlas-o6j1.vercel.app/"
   }
 }
